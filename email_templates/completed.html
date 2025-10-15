@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Completed</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { background-color: #d4edda; padding: 20px; text-align: center; color: #155724; }
+        .content { padding: 20px; }
+        .footer { background-color: #f8f9fa; padding: 10px; text-align: center; font-size: 12px; }
+        .success { color: #28a745; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>✅ Request Completed</h2>
+        </div>
+        <div class="content">
+            <p>Hello,</p>
+            <p class="success">Your request has been completed successfully!</p>
+            
+            <h3>Request Details:</h3>
+            <ul>
+                <li><strong>Title:</strong> {{request_title}}</li>
+                <li><strong>Type:</strong> {{request_type}}</li>
+                <li><strong>Completed:</strong> {{timestamp}}</li>
+            </ul>
+            
+            <h3>Description:</h3>
+            <p>{{description}}</p>
+            
+            <p>Your requested resources are now available and ready to use.</p>
+            
+            <h3>Next Steps:</h3>
+            <p>Instructions for accessing your resources will be provided separately.</p>
+        </div>
+        <div class="footer">
+            <p>This is an automated notification. Please do not reply to this email.</p>
+        </div>
+    </div>
+</body>
+</html>

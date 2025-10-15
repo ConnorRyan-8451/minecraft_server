@@ -1,0 +1,176 @@
+# Dynamic Form Configuration Template
+# Supports dynamic dropdowns and conditional field visibility
+
+name: "Resource Provisioning Request"
+description: "Request infrastructure resources with dynamic options"
+title: "[REQUEST]: "
+
+# Form fields with dynamic behavior
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Resource Provisioning Request
+        
+        Select your requirements below. Options will update based on your selections.
+
+  - type: input
+    id: user_email
+    attributes:
+      label: "Your Email"
+      description: "Email address for notifications"
+      placeholder: "user@example.com"
+    validations:
+      required: true
+
+  - type: input
+    id: request_title
+    attributes:
+      label: "Request Title"
+      description: "Brief title for your request"
+      placeholder: "My resource request"
+    validations:
+      required: true
+
+  # Dynamic dropdown - options loaded from script
+  - type: dropdown
+    id: cloud_provider
+    attributes:
+      label: "Cloud Provider"
+      description: "Select your cloud provider"
+      options: []  # Will be populated by script
+    validations:
+      required: true
+    script: "get_cloud_providers"
+
+  # Conditional dropdown - shows different services based on cloud provider
+  - type: dropdown
+    id: service_type
+    attributes:
+      label: "Service Type"
+      description: "Available services for your cloud provider"
+      options: []  # Dynamic based on cloud_provider
+    validations:
+      required: true
+    script: "get_services_for_provider"
+    dependencies:
+      - cloud_provider
+    conditional:
+      show_when:
+        cloud_provider: ["aws", "azure", "gcp"]
+
+  # Environment selection with different options per service
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "Environment"
+      description: "Target environment"
+      options: []  # Dynamic based on service_type
+    validations:
+      required: true
+    script: "get_environments"
+    dependencies:
+      - service_type
+    conditional:
+      show_when:
+        service_type: ["database", "compute", "storage"]
+
+  # Size options that change based on service and environment
+  - type: dropdown
+    id: resource_size
+    attributes:
+      label: "Resource Size"
+      description: "Instance size/tier"
+      options: []  # Dynamic
+    validations:
+      required: true
+    script: "get_resource_sizes"
+    dependencies:
+      - service_type
+      - environment
+
+  # Conditional text area for database-specific requirements
+  - type: textarea
+    id: database_config
+    attributes:
+      label: "Database Configuration"
+      description: "Database-specific settings"
+      placeholder: "Database version, storage size, backup retention..."
+    validations:
+      required: false
+    dependencies:
+      - service_type
+    conditional:
+      show_when:
+        service_type: ["database"]
+
+  # Conditional checkboxes for compute instances
+  - type: checkboxes
+    id: compute_features
+    attributes:
+      label: "Compute Features"
+      description: "Select additional features"
+      options: []  # Dynamic
+    dependencies:
+      - service_type
+    script: "get_compute_features"
+    conditional:
+      show_when:
+        service_type: ["compute"]
+
+  # Conditional field for storage type selection
+  - type: dropdown
+    id: storage_type
+    attributes:
+      label: "Storage Type"
+      description: "Type of storage needed"
+      options: []  # Dynamic
+    validations:
+      required: true
+    script: "get_storage_types"
+    dependencies:
+      - service_type
+      - cloud_provider
+    conditional:
+      show_when:
+        service_type: ["storage"]
+
+  # Multi-conditional field (shows only for AWS databases in production)
+  - type: checkboxes
+    id: aws_db_features
+    attributes:
+      label: "AWS Database Features"
+      description: "AWS-specific database features"
+      options:
+        - label: "Multi-AZ deployment"
+        - label: "Read replicas"
+        - label: "Performance Insights"
+        - label: "Enhanced monitoring"
+    dependencies:
+      - cloud_provider
+      - service_type
+      - environment
+    conditional:
+      show_when:
+        cloud_provider: ["aws"]
+        service_type: ["database"]
+        environment: ["production", "staging"]
+
+  # General description (always visible)
+  - type: textarea
+    id: description
+    attributes:
+      label: "Additional Requirements"
+      description: "Any additional specifications or requirements"
+      placeholder: "Describe any special requirements..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Terms and Conditions"
+      description: "Please confirm the following"
+      options:
+        - label: "I agree to the terms and conditions"
+          required: true

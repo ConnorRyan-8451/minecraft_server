@@ -1,0 +1,490 @@
+name: Form Elements Template
+description: All available form input elements for Forge workflows with dynamic capabilities
+body:
+  - type: input
+    id: text_input
+    attributes:
+      label: Name
+      description: Enter your full name
+      placeholder: John Doe
+      input_type: text
+    validations:
+      required: false
+      min_length: null
+      max_length: null
+      pattern: null
+    visibility:
+      condition: null  # e.g., "dropdown_single == 'Option 1'"
+      depends_on: []   # e.g., ["dropdown_single"]
+    dynamic:
+      auto_populate: null  # e.g., "email_input.split('@')[0]"
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: input
+    id: email_input
+    attributes:
+      label: Email
+      description: Enter a valid email address
+      placeholder: user@example.com
+      input_type: email
+    validations:
+      required: false
+      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      auto_populate: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: input
+    id: number_input
+    attributes:
+      label: Age
+      description: Enter a valid number (minimum value 0)
+      placeholder: "25"
+      input_type: number
+    validations:
+      required: false
+      min: 0
+      max: null
+      step: 1
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      auto_populate: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: input
+    id: password_field
+    attributes:
+      label: Password
+      description: Enter a secure password
+      placeholder: "********"
+      input_type: password
+    validations:
+      required: false
+      min_length: 8
+      pattern: null
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      auto_populate: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: textarea
+    id: textarea_field
+    attributes:
+      label: Message
+      description: Enter your detailed message in the text area above
+      placeholder: Enter your message here...
+      rows: 4
+      cols: 50
+      render: text
+    validations:
+      required: false
+      min_length: null
+      max_length: null
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      auto_populate: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: dropdown
+    id: dropdown_single
+    attributes:
+      label: Choose an option
+      description: Choose one option from the dropdown menu
+      options:
+        - value: option1
+          label: Option 1
+        - value: option2
+          label: Option 2
+        - value: option3
+          label: Option 3
+      default: null
+      multiple: false
+    validations:
+      required: false
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      # Options can be dynamically loaded from another field
+      options_source: null  # e.g., "api:/endpoint" or "field:other_field_id"
+      filter_by: null       # e.g., "checkbox_group"
+      computed: false
+      script: null          # e.g., "scripts/get_options.py" or inline script
+      script_params: {}     # Parameters to pass to the script
+
+  - type: dropdown
+    id: dropdown_multi
+    attributes:
+      label: Choose multiple options
+      description: Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple options
+      options:
+        - value: option1
+          label: Option 1
+        - value: option2
+          label: Option 2
+        - value: option3
+          label: Option 3
+        - value: option4
+          label: Option 4
+      default: []
+      multiple: true
+      size: 4
+    validations:
+      required: false
+      min_selections: null
+      max_selections: null
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      options_source: null
+      filter_by: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: checkboxes
+    id: checkbox_group
+    attributes:
+      label: Select your preferences
+      description: Select one or more options from the list above
+      options:
+        - value: option1
+          label: Option 1
+          required: false
+        - value: option2
+          label: Option 2
+          required: false
+        - value: option3
+          label: Option 3
+          required: false
+    validations:
+      required: false
+      min_selections: null
+      max_selections: null
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      options_source: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: radio
+    id: radio_button_group
+    attributes:
+      label: Select one option
+      description: Select exactly one option from the choices above
+      options:
+        - value: choice1
+          label: Choice 1
+        - value: choice2
+          label: Choice 2
+        - value: choice3
+          label: Choice 3
+      default: null
+    validations:
+      required: false
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      options_source: null
+      computed: false
+      script: null
+      script_params: {}
+
+  - type: input
+    id: date_picker
+    attributes:
+      label: Select Date
+      description: Choose a date from the calendar picker
+      placeholder: YYYY-MM-DD
+      input_type: date
+    validations:
+      required: false
+      min_date: null  # e.g., "2024-01-01" or "today"
+      max_date: null  # e.g., "2024-12-31" or "today+30"
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      auto_populate: null  # e.g., "today" or "today+7"
+      computed: false
+
+  - type: input
+    id: file_upload
+    attributes:
+      label: Upload File
+      description: Select a file to upload (all file types accepted)
+      input_type: file
+      accept: "*/*"  # e.g., ".pdf,.doc,.docx" or "image/*"
+      multiple: false
+    validations:
+      required: false
+      max_size_mb: null  # e.g., 10
+      allowed_types: []  # e.g., ["pdf", "doc", "docx"]
+    visibility:
+      condition: null
+      depends_on: []
+    dynamic:
+      computed: false
+      script: null
+      script_params: {}
+
+# ============================================================================
+# EXAMPLE 1: Cascading Dropdowns - Cloud Provider -> Infrastructure Resources
+# ============================================================================
+# body:
+#   - type: dropdown
+#     id: cloud_provider
+#     attributes:
+#       label: Cloud Provider
+#       description: Select your cloud provider
+#       options:
+#         - value: aws
+#           label: Amazon Web Services (AWS)
+#         - value: azure
+#           label: Microsoft Azure
+#         - value: gcp
+#           label: Google Cloud Platform (GCP)
+#       default: null
+#     validations:
+#       required: true
+#
+#   - type: dropdown
+#     id: infrastructure_resource
+#     attributes:
+#       label: Infrastructure Resource
+#       description: Select the resource type to deploy
+#       options: []  # Will be populated dynamically
+#     validations:
+#       required: true
+#     visibility:
+#       condition: "cloud_provider != null"
+#       depends_on: ["cloud_provider"]
+#     dynamic:
+#       # Option 1: Define options inline based on parent field value
+#       options_map:
+#         aws:
+#           - value: ec2
+#             label: EC2 Instance
+#           - value: s3
+#             label: S3 Bucket
+#           - value: rds
+#             label: RDS Database
+#           - value: lambda
+#             label: Lambda Function
+#         azure:
+#           - value: vm
+#             label: Virtual Machine
+#           - value: storage
+#             label: Storage Account
+#           - value: sql
+#             label: SQL Database
+#           - value: functions
+#             label: Azure Functions
+#         gcp:
+#           - value: compute
+#             label: Compute Engine
+#           - value: storage
+#             label: Cloud Storage
+#           - value: sql
+#             label: Cloud SQL
+#           - value: functions
+#             label: Cloud Functions
+#       depends_on_field: "cloud_provider"
+#       # Option 2: Fetch from API endpoint
+#       # options_source: "api:/api/resources?provider={cloud_provider}"
+#
+#   - type: dropdown
+#     id: region
+#     attributes:
+#       label: Region
+#       description: Select the deployment region
+#       options: []
+#     validations:
+#       required: true
+#     visibility:
+#       condition: "cloud_provider != null"
+#       depends_on: ["cloud_provider"]
+#     dynamic:
+#       options_map:
+#         aws:
+#           - value: us-east-1
+#             label: US East (N. Virginia)
+#           - value: us-west-2
+#             label: US West (Oregon)
+#           - value: eu-west-1
+#             label: Europe (Ireland)
+#         azure:
+#           - value: eastus
+#             label: East US
+#           - value: westus2
+#             label: West US 2
+#           - value: northeurope
+#             label: North Europe
+#         gcp:
+#           - value: us-central1
+#             label: Iowa (us-central1)
+#           - value: us-west1
+#             label: Oregon (us-west1)
+#           - value: europe-west1
+#             label: Belgium (europe-west1)
+#       depends_on_field: "cloud_provider"
+#
+#   - type: dropdown
+#     id: instance_size
+#     attributes:
+#       label: Instance Size
+#       description: Select the size/tier for your resource
+#       options: []
+#     validations:
+#       required: true
+#     visibility:
+#       condition: "infrastructure_resource != null"
+#       depends_on: ["cloud_provider", "infrastructure_resource"]
+#     dynamic:
+#       # Multi-level dependency: options depend on BOTH cloud_provider AND infrastructure_resource
+#       options_map:
+#         aws:
+#           ec2:
+#             - value: t2.micro
+#               label: t2.micro (1 vCPU, 1GB RAM)
+#             - value: t2.small
+#               label: t2.small (1 vCPU, 2GB RAM)
+#             - value: t2.medium
+#               label: t2.medium (2 vCPU, 4GB RAM)
+#           rds:
+#             - value: db.t2.micro
+#               label: db.t2.micro (1 vCPU, 1GB RAM)
+#             - value: db.t2.small
+#               label: db.t2.small (1 vCPU, 2GB RAM)
+#         azure:
+#           vm:
+#             - value: Standard_B1s
+#               label: Standard_B1s (1 vCPU, 1GB RAM)
+#             - value: Standard_B2s
+#               label: Standard_B2s (2 vCPU, 4GB RAM)
+#           sql:
+#             - value: Basic
+#               label: Basic (5 DTUs)
+#             - value: Standard_S0
+#               label: Standard S0 (10 DTUs)
+#         gcp:
+#           compute:
+#             - value: e2-micro
+#               label: e2-micro (0.25-2 vCPU, 1GB RAM)
+#             - value: e2-small
+#               label: e2-small (0.5-2 vCPU, 2GB RAM)
+#           sql:
+#             - value: db-f1-micro
+#               label: db-f1-micro (0.6GB RAM)
+#             - value: db-g1-small
+#               label: db-g1-small (1.7GB RAM)
+#       depends_on_fields: ["cloud_provider", "infrastructure_resource"]
+#       lookup_path: "{cloud_provider}.{infrastructure_resource}"
+#
+# ============================================================================
+# EXAMPLE 2: Conditional Fields with Auto-Population
+# ============================================================================
+#   - type: input
+#     id: resource_name
+#     attributes:
+#       label: Resource Name
+#       input_type: text
+#       placeholder: my-resource
+#     validations:
+#       required: true
+#       pattern: "^[a-z0-9-]+$"
+#     dynamic:
+#       auto_populate: "{cloud_provider}-{infrastructure_resource}-{region}"
+#       computed: false  # User can still edit
+#
+#   - type: input
+#     id: estimated_monthly_cost
+#     attributes:
+#       label: Estimated Monthly Cost (USD)
+#       input_type: text
+#       readonly: true
+#     dynamic:
+#       auto_populate: "calculateCost({cloud_provider}, {infrastructure_resource}, {instance_size})"
+#       computed: true  # Completely computed, user cannot edit
+#       depends_on: ["cloud_provider", "infrastructure_resource", "instance_size"]
+#
+#   - type: textarea
+#     id: tags
+#     attributes:
+#       label: Resource Tags (JSON)
+#       rows: 6
+#     dynamic:
+#       auto_populate: |
+#         {
+#           "environment": "{environment}",
+#           "provider": "{cloud_provider}",
+#           "resource": "{infrastructure_resource}",
+#           "managed_by": "forge"
+#         }
+#       computed: false
+#
+# ============================================================================
+# EXAMPLE 3: Conditional Visibility with Multiple Conditions
+# ============================================================================
+#   - type: checkboxes
+#     id: advanced_options
+#     attributes:
+#       label: Advanced Configuration
+#       options:
+#         - value: backup
+#           label: Enable automated backups
+#         - value: monitoring
+#           label: Enable monitoring
+#         - value: encryption
+#           label: Enable encryption at rest
+#     visibility:
+#       condition: "cloud_provider == 'aws' || cloud_provider == 'azure'"
+#       depends_on: ["cloud_provider"]
+#
+#   - type: input
+#     id: backup_retention_days
+#     attributes:
+#       label: Backup Retention (Days)
+#       input_type: number
+#     validations:
+#       min: 1
+#       max: 365
+#     visibility:
+#       condition: "advanced_options.includes('backup')"
+#       depends_on: ["advanced_options"]
+#
+#   - type: dropdown
+#     id: encryption_key
+#     attributes:
+#       label: Encryption Key
+#       options: []
+#     visibility:
+#       condition: "advanced_options.includes('encryption') && cloud_provider == 'aws'"
+#       depends_on: ["advanced_options", "cloud_provider"]
+#     dynamic:
+#       options_source: "api:/api/kms-keys?provider={cloud_provider}&region={region}"
+#       depends_on_field: "cloud_provider"
