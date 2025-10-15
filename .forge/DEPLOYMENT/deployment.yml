@@ -1,0 +1,30 @@
+name: Deploy Minecraft Server
+
+steps:
+  - name: Setup environment
+    run: |
+      echo "Setting up deployment environment..."
+      # Add any environment setup commands here
+
+  - name: Install dependencies
+    run: |
+      apt-get update
+      apt-get install -y default-jre
+
+  - name: Build application
+    run: ./scripts/build.sh
+
+  - name: Run tests
+    run: ./scripts/test.sh
+
+  - name: Deploy infrastructure
+    run: ./scripts/deploy-infrastructure.sh
+
+  - name: Deploy application
+    run: ./scripts/deploy-server.sh
+
+  - name: Health check
+    run: ./scripts/health-check.sh
+
+  - name: Cleanup
+    run: echo "Deployment complete"
