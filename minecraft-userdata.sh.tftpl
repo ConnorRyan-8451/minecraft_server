@@ -1,0 +1,47 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y docker htop tmux
+sudo systemctl start docker
+sudo usermod -aG docker ec2-user
+echo "alias start='sudo docker start ${app_name}'" >> /home/ec2-user/.bashrc
+echo "alias run='sudo docker exec -i ${app_name} rcon-cli'" >> /home/ec2-user/.bashrc
+
+%{ if ftb_modpack_id != 0 && ftb_modpack_version_id != 0 }
+sudo docker run -d --name ${app_name} \
+  -p ${minecraft_server_port}:${minecraft_server_port} \
+  -e EULA=TRUE \
+  -e TYPE=${minecraft_server_type} \
+  -e MEMORY=${minecraft_memory_G}G \
+  -e MAX_PLAYERS=${minecraft_max_players} \
+  -e MOTD="${minecraft_motd}" \
+  -e TZ="${minecraft_timezone}" \
+  -e DIFFICULTY=${minecraft_difficulty_level} \
+  -e MODE=${minecraft_gamemode} \
+  -e LEVEL=${minecraft_world_name} \
+  -e SEED=${minecraft_world_seed} \
+  -e OPS=${minecraft_ops_list} \
+  -e RCON_CMDS_LAST_DISCONNECT="${minecraft_rcon_cmds_last_disconnect}" \
+  -e FTB_MODPACK_ID=${ftb_modpack_id} \
+  -e FTB_MODPACK_VERSION_ID=${ftb_modpack_version_id} \
+  -v "/home/ec2-user/data:/data" \
+  --tty --interactive \
+  itzg/minecraft-server
+%{else}
+sudo docker run -d --name ${app_name} \
+  -p ${minecraft_server_port}:${minecraft_server_port} \
+  -e EULA=TRUE \
+  -e TYPE=${minecraft_server_type} \
+  -e MEMORY=${minecraft_memory_G}G \
+  -e MAX_PLAYERS=${minecraft_max_players} \
+  -e MOTD="${minecraft_motd}" \
+  -e TZ="${minecraft_timezone}" \
+  -e DIFFICULTY=${minecraft_difficulty_level} \
+  -e MODE=${minecraft_gamemode} \
+  -e LEVEL=${minecraft_world_name} \
+  -e SEED=${minecraft_world_seed} \
+  -e OPS=${minecraft_ops_list} \
+  -e RCON_CMDS_LAST_DISCONNECT="${minecraft_rcon_cmds_last_disconnect}" \
+  -v "/home/ec2-user/data:/data" \
+  --tty --interactive \
+  itzg/minecraft-server
+  %{ endif }

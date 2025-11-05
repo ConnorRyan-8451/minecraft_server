@@ -108,6 +108,7 @@ body:
       description: Minimum heap size for the JVM (in GB)
       placeholder: "2"
       input_type: number
+      default: "2"
     validations:
       required: false
       min: 1
@@ -117,7 +118,7 @@ body:
       condition: "memory_allocation == 'custom'"
       depends_on: ["memory_allocation"]
     dynamic:
-      auto_populate: null
+      auto_populate: "2"
       computed: false
       script: null
       script_params: {}
@@ -129,6 +130,7 @@ body:
       description: Maximum heap size for the JVM (in GB)
       placeholder: "4"
       input_type: number
+      default: "4"
     validations:
       required: false
       min: 1
@@ -138,7 +140,7 @@ body:
       condition: "memory_allocation == 'custom'"
       depends_on: ["memory_allocation"]
     dynamic:
-      auto_populate: null
+      auto_populate: "4"
       computed: false
       script: null
       script_params: {}
@@ -150,6 +152,7 @@ body:
       description: Port number for the Minecraft server (default 25565)
       placeholder: "25565"
       input_type: number
+      default: "25565"
     validations:
       required: false
       min: 1024
@@ -227,6 +230,7 @@ body:
       description: Maximum number of players allowed on the server
       placeholder: "20"
       input_type: number
+      default: "20"
     validations:
       required: false
       min: 1
@@ -248,6 +252,7 @@ body:
       description: Enter a custom seed for world generation (leave blank for random)
       placeholder: "Leave blank for random generation"
       input_type: text
+      default: ""
     validations:
       required: false
       min_length: null
@@ -257,7 +262,7 @@ body:
       condition: null
       depends_on: []
     dynamic:
-      auto_populate: null
+      auto_populate: ""
       computed: false
       script: null
       script_params: {}
@@ -316,6 +321,7 @@ body:
     attributes:
       label: Server Options
       description: Select additional server configuration options
+      default: ["online_mode", "pvp", "generate_structures", "spawn_protection"]
       options:
         - value: online_mode
           label: Online Mode (Authenticate with Mojang servers)
@@ -357,6 +363,7 @@ body:
       rows: 5
       cols: 50
       render: text
+      default: ""
     validations:
       required: false
       min_length: null
@@ -365,7 +372,7 @@ body:
       condition: "server_options.includes('whitelist')"
       depends_on: ["server_options"]
     dynamic:
-      auto_populate: null
+      auto_populate: ""
       computed: false
       script: null
       script_params: {}
@@ -379,6 +386,7 @@ body:
       rows: 3
       cols: 50
       render: text
+      default: ""
     validations:
       required: false
       min_length: null
@@ -387,7 +395,7 @@ body:
       condition: null
       depends_on: []
     dynamic:
-      auto_populate: null
+      auto_populate: ""
       computed: false
       script: null
       script_params: {}
@@ -410,28 +418,6 @@ body:
       depends_on: []
     dynamic:
       auto_populate: "A Minecraft Server"
-      computed: false
-      script: null
-      script_params: {}
-
-  - type: textarea
-    id: additional_notes
-    attributes:
-      label: Additional Notes
-      description: Any additional information or special requirements for the deployment
-      placeholder: "Enter any special requests or configurations..."
-      rows: 4
-      cols: 50
-      render: text
-    validations:
-      required: false
-      min_length: null
-      max_length: null
-    visibility:
-      condition: null
-      depends_on: []
-    dynamic:
-      auto_populate: null
       computed: false
       script: null
       script_params: {}
