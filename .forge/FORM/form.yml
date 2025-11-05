@@ -268,7 +268,7 @@ body:
       script_params: {}
 
   - type: input
-    id: level_name
+    id: world_name
     attributes:
       label: World Name
       description: Name for the world directory
@@ -289,7 +289,7 @@ body:
       script_params: {}
 
   - type: dropdown
-    id: level_type
+    id: world_type
     attributes:
       label: World Type
       description: Type of world to generate
