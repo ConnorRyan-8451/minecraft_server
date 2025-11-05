@@ -4,19 +4,15 @@
   "server_version": "1.21.1",
   "memory_allocation": "8G",
   "memory_min": "2",
-  "memory_max": "8",
-  "server_port": "",
+  "memory_max": "4",
+  "server_port": "25565",
   "game_mode": "survival",
   "difficulty": "normal",
-  "max_players": "10",
+  "max_players": "20",
   "world_seed": "",
-  "level_name": "world",
-  "level_type": "large_biomes",
-  "server_options": [
-    "whitelist",
-    "generate_structures"
-  ],
-  "whitelist_players": "cboy7315",
-  "op_players": "cboy7315",
-  "motd": "Hello friends"
+  "world_name": "",
+  "world_type": "default",
+  "whitelist_players": "",
+  "op_players": "",
+  "motd": ""
 }

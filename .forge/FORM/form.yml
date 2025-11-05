@@ -321,7 +321,7 @@ body:
     attributes:
       label: Server Options
       description: Select additional server configuration options
-      default: ["online_mode", "pvp", "generate_structures", "spawn_protection"]
+      default: ["pvp", "generate_structures", "spawn_protection", "whitelist"]
       options:
         - value: online_mode
           label: Online Mode (Authenticate with Mojang servers)
