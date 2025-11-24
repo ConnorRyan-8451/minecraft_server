@@ -501,9 +501,9 @@ body:
         type: inline
         language: bash
         source: |
-          memory_min=$(echo "$FORM_DATA" | python3 -c "import sys,json; print(json.load(sys.stdin).get('memory_min','2G'))")
-          memory_max=$(echo "$FORM_DATA" | python3 -c "import sys,json; print(json.load(sys.stdin).get('memory_max','2G'))")
-          echo "-Xms${memory_min} -Xmx${memory_max}"
+          mem_min=$(echo "$FORM_DATA" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('memory_min') or '2')")
+          mem_max=$(echo "$FORM_DATA" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('memory_max') or '4')")
+          echo "-Xms${mem_min}G -Xmx${mem_max}G"
         params: {}
       computed: true
-      depends_on: ["memory_allocation"]
+      depends_on: ["memory_min", "memory_max"]
