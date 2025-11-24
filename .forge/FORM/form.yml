@@ -421,12 +421,12 @@ body:
       auto_populate: "today"
       computed: true
 
-  # 3. BUILT-IN FUNCTION - Client-side
+  # 3. BUILT-IN FUNCTION - concat
   - type: input
     id: full_address
     attributes:
       label: Full Server Address
-      description: Combined server name and port
+      description: Combined server name and port (builtin concat)
       input_type: text
     validations:
       required: false
@@ -438,6 +438,78 @@ body:
           values: ["{server_name}", ":", "{server_port}"]
       computed: true
       depends_on: ["server_name", "server_port"]
+
+  # 3b. BUILT-IN FUNCTION - uppercase
+  - type: input
+    id: server_name_upper
+    attributes:
+      label: Server Name (Uppercase)
+      description: Server name converted to uppercase (builtin uppercase)
+      input_type: text
+    validations:
+      required: false
+    dynamic:
+      auto_populate:
+        type: builtin
+        function: uppercase
+        params:
+          field: "{server_name}"
+      computed: true
+      depends_on: ["server_name"]
+
+  # 3c. BUILT-IN FUNCTION - lowercase
+  - type: input
+    id: game_mode_lower
+    attributes:
+      label: Game Mode (Lowercase)
+      description: Game mode converted to lowercase (builtin lowercase)
+      input_type: text
+    validations:
+      required: false
+    dynamic:
+      auto_populate:
+        type: builtin
+        function: lowercase
+        params:
+          field: "{game_mode}"
+      computed: true
+      depends_on: ["game_mode"]
+
+  # 3d. BUILT-IN FUNCTION - sum
+  - type: input
+    id: total_memory
+    attributes:
+      label: Total Memory (Min + Max)
+      description: Sum of min and max memory values (builtin sum)
+      input_type: text
+    validations:
+      required: false
+    dynamic:
+      auto_populate:
+        type: builtin
+        function: sum
+        params:
+          values: ["{memory_min}", "{memory_max}"]
+      computed: true
+      depends_on: ["memory_min", "memory_max"]
+
+  # 3e. BUILT-IN FUNCTION - multiply
+  - type: input
+    id: player_capacity
+    attributes:
+      label: Player Capacity Score
+      description: Max players multiplied by 10 (builtin multiply)
+      input_type: text
+    validations:
+      required: false
+    dynamic:
+      auto_populate:
+        type: builtin
+        function: multiply
+        params:
+          values: ["{max_players}", 10]
+      computed: true
+      depends_on: ["max_players"]
 
   # 4. INLINE PYTHON SCRIPT - Server-side via executor
   - type: input
@@ -486,7 +558,6 @@ body:
         params: {}
       computed: true
       depends_on: ["memory_allocation", "max_players"]
-
   # 6. INLINE BASH SCRIPT - Server-side via executor
   - type: input
     id: jvm_flags
