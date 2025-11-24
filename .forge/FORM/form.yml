@@ -71,36 +71,6 @@ body:
       script: null
       script_params: {}
 
-  - type: dropdown
-    id: memory_allocation
-    attributes:
-      label: Memory Allocation
-      description: Select the amount of RAM to allocate to the server
-      options:
-        - value: "1G"
-          label: "1GB (Small - 5-10 players)"
-        - value: "2G"
-          label: "2GB (Medium - 10-20 players)"
-        - value: "4G"
-          label: "4GB (Large - 20-50 players)"
-        - value: "8G"
-          label: "8GB (Very Large - 50+ players)"
-        - value: "custom"
-          label: "Custom Configuration"
-      default: "2G"
-      multiple: false
-    validations:
-      required: true
-    visibility:
-      condition: null
-      depends_on: []
-    dynamic:
-      options_source: null
-      filter_by: null
-      computed: false
-      script: null
-      script_params: {}
-
   - type: input
     id: memory_min
     attributes:
@@ -531,8 +501,9 @@ body:
         type: inline
         language: bash
         source: |
-          memory=$(echo "$FORM_DATA" | python3 -c "import sys,json; print(json.load(sys.stdin).get('memory_allocation','2G'))")
-          echo "-Xms${memory} -Xmx${memory}"
+          memory_min=$(echo "$FORM_DATA" | python3 -c "import sys,json; print(json.load(sys.stdin).get('memory_min','2G'))")
+          memory_max=$(echo "$FORM_DATA" | python3 -c "import sys,json; print(json.load(sys.stdin).get('memory_max','2G'))")
+          echo "-Xms${memory_min} -Xmx${memory_max}"
         params: {}
       computed: true
       depends_on: ["memory_allocation"]
